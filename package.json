@@ -1,12 +1,13 @@
 {
-    "name": "ripsgrep",
+    "name": "ripgrep-pkg",
     "description": "An install wrapper/API around the ripgrep command line tool",
-    "version": "0.1.0",
-    "main": "index.js",
+    "version": "0.3.2",
+    "main": "./dist/index.js",
     "scripts": {
         "postinstall": "node postinstall.js"
     },
     "ripgrepConfig": {
         "version": "13.0.0"
-    }
+    },
+    "types": "./dist/index.d.ts"
 }

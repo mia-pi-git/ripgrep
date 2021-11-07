@@ -1,2 +1,4 @@
 bin/rg 
 *.tar.gz
+ripgrep*/
+dist/

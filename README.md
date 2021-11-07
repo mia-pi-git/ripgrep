@@ -1,4 +1,16 @@
 **ripgrep-pkg**
 
-This makes it easy to `npm install` ripgrep. It doesn't bind anything else (yet *tm*)
-but it supports all platforms (this is similar to`ripgrep-bin`, but uses native Node to support Windows, whereas they use `make`).
+This makes it easy to `npm install` ripgrep (installs a binary) and then offers an easy API surface.
+
+Install with `npm install ripgrep-pkg`.
+
+**Usage**
+```ts
+
+import {ripgrep} from 'ripgrep-pkg';
+
+ripgrep(opts)
+``` 
+`ripgrep` is the main API surface, returning a stream that handles output from the CLI.
+
+Usable options: see [the opts file](./src/opts.ts).

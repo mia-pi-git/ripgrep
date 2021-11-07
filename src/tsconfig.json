@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "lib": ["es2020"],
+        "outDir": "../dist",
+        "declaration": true,
+        "target": "es2019",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "incremental": true,
+        "allowUnreachableCode": false
+    },
+    "types": ["node"],
+    "include": ["./*.ts"],
+    "exclude": ["../node_modules", "../dist"]
+}

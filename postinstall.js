@@ -20,7 +20,6 @@ const url = (
     `${ROOT}${VERSION}/` +
     `${releases[process.platform].replace('VER', VERSION)}`
 );
-console.log(url);
 
 function fetch(location) {
     https.get(location, res => {
@@ -45,12 +44,23 @@ function download(res) {
 
 function unpack() {
     execSync('tar -xvzf ./bin/rg.tar.gz');
-    const dir = releases[process.platform]
-        .replace('VER', VERSION)
-        .replace('.tar.gz', '');
-    execSync(`mv ./${dir}/rg ./bin/rg`);
-    execSync(`rm -rf ./${dir}`);
-    execSync(`rm -rf ./bin/rg.tar.gz`);
+    const dir = fs.readdirSync('./').filter(f => f.startsWith('ripgrep-'))[0];  
+    const end = process.platform === 'win32' ? '.exe' : ""
+    fs.copyFileSync(`./${dir}/rg${end}`, `./bin/rg${end}`);
+    fs.unlinkSync(`./${dir}/rg${end}`);
+    remove(`./${dir}`);
+    fs.unlinkSync('./bin/rg.tar.gz');
+}
+
+function remove(path) {
+    const stats = fs.statSync(path);
+    if (stats.isDirectory()) {
+        for (const file of fs.readdirSync(path)) {
+            remove(`${path}/${file}`);
+        }
+    } else {
+        fs.unlinkSync(path);
+    }
 }
 
 fetch(url);
