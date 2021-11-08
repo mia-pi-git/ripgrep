@@ -1,7 +1,7 @@
 {
     "name": "ripgrep-pkg",
     "description": "An install wrapper/API around the ripgrep command line tool",
-    "version": "0.3.6",
+    "version": "0.4.0",
     "main": "./dist/index.js",
     "scripts": {
         "postinstall": "node postinstall.js"
@@ -10,5 +10,7 @@
         "version": "13.0.0"
     },
     "types": "./dist/index.d.ts",
-    "license": "MIT"
+    "license": "MIT",
+    "tags": ["ripgrep", "binary"],
+    "repository": "https://github.com/mia-pi-git/ripgrep"
 }

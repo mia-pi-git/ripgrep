@@ -19,22 +19,20 @@ export const path = (() => {
     }
 })();
 
-export class RipgrepStream extends Stream<string> {
+export class RipgrepStream<T> extends Stream<T> {
     cmd: child_process.ChildProcessWithoutNullStreams;
+    private opts: opts.RipgrepOptions;
     constructor(input: opts.RipgrepOptions) {
         super();
         const {args, execOpts} = opts.parse(input);
         this.cmd = child_process.spawn(path, args, execOpts);
+        this.opts = input;
 
         this.cmd.stdout.on('data', (data) => {
             if (this.ended) {
                 return this.cmd.kill();
             }
-            data = data.toString();
-            if (input.separator) {
-                data = data.split(input.separator);
-            }
-            this.push(data);
+            this.push(this.split(data + "") as any);
         });
         this.cmd.stderr.on('data', (data) => {
             if (this.ended) {
@@ -50,12 +48,30 @@ export class RipgrepStream extends Stream<string> {
             this.end();
         });
     }
+    private split(data: string) {
+        const sep = this.opts.separator;
+        if (typeof sep === 'string') {
+            return data.split(sep);
+        }
+        if (Array.isArray(sep)) {
+            return data.split(sep[0]).map((s) => s.split(sep[1]));
+        }
+        return data;
+    }
     override end() {
         this.cmd.kill();
         super.end();
     }
 }
 
-export function ripgrep(input: opts.RipgrepOptions) {
+export function ripgrep(
+    opts: opts.RipgrepOptions & {separator: [string, string]}
+): RipgrepStream<string[]>;
+export function ripgrep(
+    opts: opts.RipgrepOptions & {separator: undefined | string}
+): RipgrepStream<string>;
+export function ripgrep(
+    input: opts.RipgrepOptions
+): RipgrepStream<string | string[]> {
     return new RipgrepStream(input);
 }

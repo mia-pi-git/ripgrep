@@ -19,7 +19,7 @@ export class Stream<T> {
     signal = defer<void>();
     buf: T[] = [];
     ended = false;
-    push (items: T[] | T) {
+    push(items: T[] | T) {
         if (this.ended) return;
         if (!Array.isArray(items)) items = [items];
         for(const item of items) {

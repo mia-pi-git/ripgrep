@@ -17,8 +17,11 @@ export interface RipgrepOptions {
     cwd?: string;
     /** Lines of context around each match. */
     context?: number;
-    /** To split each chunk on. */
-    separator?: string;
+    /** To split each chunk on. 
+     * Provide a [string, string] to split by the first string, 
+     * then split each chunk by the second string
+     */
+    separator?: string | [string, string];
     /** Extra custom args. */
     args?: string[];
     /** Engine to use. */
