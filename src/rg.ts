@@ -4,14 +4,19 @@
 import * as child_process from 'child_process';
 import {Stream} from './streams';
 import * as opts from './opts';
-import rg from '.'; 
+import * as pathModule from 'path';
+
+export const path = pathModule.join(
+    __dirname, 
+    `/../bin/rg${process.platform.startsWith('win') ? '.exe' : ''}`
+);
 
 export class RipgrepStream extends Stream<string> {
     cmd: child_process.ChildProcessWithoutNullStreams;
     constructor(input: opts.RipgrepOptions) {
         super();
         const {args, execOpts} = opts.parse(input);
-        this.cmd = child_process.spawn(rg, args, execOpts);
+        this.cmd = child_process.spawn(path, args, execOpts);
 
         this.cmd.stdout.on('data', (data) => {
             if (this.ended) {
