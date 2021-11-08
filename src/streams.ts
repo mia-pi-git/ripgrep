@@ -3,19 +3,20 @@
  * */
 
 interface Deferred<T> {
-    resolve: (value?: T | PromiseLike<T>) => void;
+    resolve: (value: T | PromiseLike<T>) => void;
     reject: (reason?: any) => void;
 }
 
 export function defer<T = void>() {
+    let methods!: Deferred<T>;
     const p = new Promise<T>((resolve, reject) => {
-        Object.assign(p, { resolve, reject });
+        methods = { resolve, reject };
     });
-    return p as Promise<T> & Deferred<T>;
+    return Object.assign(p, methods) as Promise<T> & Deferred<T>;
 }
 
 export class Stream<T> {
-    signal = defer<T>();
+    signal = defer<void>();
     buf: T[] = [];
     ended = false;
     push (items: T[] | T) {

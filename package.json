@@ -1,7 +1,7 @@
 {
     "name": "ripgrep-pkg",
     "description": "An install wrapper/API around the ripgrep command line tool",
-    "version": "0.3.2",
+    "version": "0.3.4",
     "main": "./dist/index.js",
     "scripts": {
         "postinstall": "node postinstall.js"

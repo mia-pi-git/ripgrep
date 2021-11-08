@@ -10,7 +10,7 @@ export interface RipgrepOptions {
     /** Pattern to search. */
     pattern: string;
     /** Path(s?) to search. */
-    path: string | string[];
+    path: string;
     /** Max results to get. */
     maxResults?: number;
     /** CWD to use. */
@@ -84,7 +84,7 @@ const parsers: {
 export function parse(opts: RipgrepOptions) {
     let buf: string[] = [];
     for (const k in opts) {
-        if (flags[k]) {
+        if (k in flags) {
             let val = opts[k as keyof RipgrepOptions] + "";
             if (val === 'true') val = '';
             buf.push(
