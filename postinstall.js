@@ -3,13 +3,14 @@
  */
 const https = require('https');
 const fs = require('fs');
-const package = require('./package.json');
+const packageData = require('./package.json');
 const {execSync} = require('child_process');
 
 // ex /BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-apple-darwin.tar.gz
 const ROOT = `https://github.com/BurntSushi/ripgrep/releases/download/`;
-const VERSION = package.ripgrepConfig.version;
+const VERSION = packageData.ripgrepConfig.version;
 
+/** @type {{[k: string]: string}} */
 const releases = {
     'darwin': 'ripgrep-VER-x86_64-apple-darwin.tar.gz',
     'linux': 'ripgrep-VER-x86_64-unknown-linux-musl.tar.gz',
@@ -63,4 +64,8 @@ function remove(path) {
     }
 }
 
-fetch(url);
+try {
+    execSync('rg --help');
+} catch {
+    fetch(url);
+}

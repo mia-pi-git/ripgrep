@@ -5,11 +5,19 @@ import * as child_process from 'child_process';
 import {Stream} from './streams';
 import * as opts from './opts';
 import * as pathModule from 'path';
+import {execSync as exec} from 'child_process';
 
-export const path = pathModule.join(
-    __dirname, 
-    `/../bin/rg${process.platform.startsWith('win') ? '.exe' : ''}`
-);
+export const path = (() => {
+    try {
+        exec('rg --help');
+        return 'rg';
+    } catch {
+        return pathModule.join(
+            __dirname, 
+            `/../bin/rg${process.platform.startsWith('win') ? '.exe' : ''}`
+        );
+    }
+})();
 
 export class RipgrepStream extends Stream<string> {
     cmd: child_process.ChildProcessWithoutNullStreams;
