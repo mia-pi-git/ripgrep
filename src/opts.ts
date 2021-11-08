@@ -54,7 +54,6 @@ export const flags: {[k: string]: string} = {
     pattern: '-e',
     path: '',
     context: '-C',
-    engine: '--engine',
     maxResults: '-m',
     beforeMatch: '-B',
     afterMatch: '-A',
@@ -78,6 +77,9 @@ const parsers: {
 } = {
     ignoreFiles(val) {
         return (val as string[]).map(file => `--ignore-file ${file}`);
+    },
+    engine(val) {
+        return [`--engine=${val}`];
     },
 };
 
